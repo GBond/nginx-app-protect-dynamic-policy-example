@@ -57,3 +57,7 @@ Medium Policy Virtual Server block:
 ```            
 
 With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our customer logic!
+
+## How to use this example NGINX App Protect configuration 
+
+
