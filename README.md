@@ -14,6 +14,10 @@ Configuration details: In this simple example, NGINX Plus App Protect detects re
       "~AppleWebKit.*Version/[1-4]..*Safari"                                yes_friendly_agent;
       "vanguard.com:Other Agent.*$"                                         no_friendly_agent;
   }
-}```
+}
+```
 
-We then use the values to apply our custom conditional logic for selecting the desired policy level. With the desired level determined, the client session is sent to one of the Virtual Servers that maps one of the policy levels (Default, Medium, & Strict). 
+We then use the values to apply our custom conditional logic for selecting the desired policy level. 
+
+
+With the desired level determined, the client session is sent to one of the Virtual Servers that maps one of the policy levels (Default, Medium, & Strict). 
