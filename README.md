@@ -44,8 +44,9 @@ We then use the values to apply our custom conditional logic for selecting the d
         }
 ```
 
-With the desired level determined, the client session is sent to one of the Virtual Servers that maps one of the policy levels (Default, Medium, & Strict). 
+With the desired level determined, the client session is sent to one of the Virtual Servers that maps one of the policy levels: Default, Medium, & Strict. 
 
+Medium Policy Virtual Server block:  
 ```nginx
        location @medium {
             app_protect_enable off;
