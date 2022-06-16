@@ -7,7 +7,7 @@ Demonstrate how NGINX Configuration can evaluate the client's user agent info an
 Using native NGINX directives, read the client request info and apply the proper NGINX App Protect's declarative policy in a dynamic fashion.
 
 ### Configuration details 
-In this simple example, NGINX Plus App Protect detects requesting client's user agent and IP address (via built-in NGINX Plus request variables).  
+In this simple example, NGINX Plus App Protect detects requesting client's user agent and IP address (via built-in NGINX Plus request variables $remote_addr & $http_user_agent).  
 
 ```nginx
   map $remote_addr $ip_flag {
