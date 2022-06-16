@@ -23,5 +23,25 @@ In this simple example, NGINX Plus App Protect detects requesting client's user 
 
 We then use the values to apply our custom conditional logic for selecting the desired policy level. 
 
+```nginx
+        if ($ip_flag = yes_friendly_IP){
+            set $friendy_flag T;
+        }
+
+        if ($agent_flag = 'yes_friendly_agent'){
+            set $friendy_flag "${friendy_flag}T";
+        }
+
+         #default policy is strict
+        set $location "strict";
+        
+        if ($friendy_flag  = "TT") {
+               set $location "default";
+        }
+
+        if ($friendy_flag  = "T") {
+               set $location "medium";
+        }
+```
 
 With the desired level determined, the client session is sent to one of the Virtual Servers that maps one of the policy levels (Default, Medium, & Strict). 
