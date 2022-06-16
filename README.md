@@ -63,4 +63,4 @@ With the proper Virtual Server block selected, the client request now under the 
 2. Backup your existing NGINX App Protect configurations.
 3. Clone this GitHub repository. From the cloned repository, copy the *nginx.conf* file into your NGINX App Protect host to this location: */etc/nginx/*. Copy the default.conf into */etc/nginx/conf.d/*. Modify the example Ip address and user agent regular expression to your desired value.
 4. Reload NGINX.
-
+5. You now have dynamic NGINX App Protect WAF policy selection!
