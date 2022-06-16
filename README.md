@@ -55,3 +55,5 @@ Medium Policy Virtual Server block:
             app_protect_security_log_enable on;
             app_protect_security_log "/opt/app_protect/share/defaults/log_all.json" /var/log/app_protect/requests.log;
 ```            
+
+With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our customer logic!
