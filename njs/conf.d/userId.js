@@ -2,7 +2,7 @@
 
 function handleRequest(r){
     let friendlyIp;
-    friendlyIp = r.variables["ip_flag"] == "friendly_IP"  ? true : false;
+    friendlyIp = r.variables["ip_flag"] == "friendly_IP" ? true : false;
     let agent = r.variables["http_user_agent"];
     let location;
 
@@ -15,7 +15,7 @@ function handleRequest(r){
             break;
     }
 
-    r.subrequest("@"+location)
+    r.subrequest("/"+location)
     .then(response => {
         r.headersOut = response.headers;
         r.return(response.status, response.arrayBuffer());
