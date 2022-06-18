@@ -1,13 +1,11 @@
-
-
-function handleRequest(r){
+async function handleRequest(r){
     let friendlyIp;
     friendlyIp = r.variables["ip_flag"] == "friendly_IP" ? true : false;
     let agent = r.variables["http_user_agent"];
     let location;
 
     switch(agent){
-        case agent.match(/~AppleWebKit.*Version\/[1-4]..*Safari/)?.input:
+            case "chrome":
             location = friendlyIp ? "default" : "medium";
             break;
         default:
@@ -15,9 +13,12 @@ function handleRequest(r){
             break;
     }
 
-    r.subrequest("/"+location)
-    .then(response => {
-        r.headersOut = response.headers;
-        r.return(response.status, response.arrayBuffer());
-    });
+    // let reply = await r.subrequest("/"+location+"/"+r.uri)
+    // r.return(reply.status, reply.responseBody);
+    r.internalRedirect("/"+location+"/"+r.uri);
+}
+
+
+export default {
+    handleRequest
 }
