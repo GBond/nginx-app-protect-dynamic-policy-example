@@ -41,12 +41,33 @@ With the desired level determined, the client session is sent to one of the Virt
 
 Medium Policy Virtual Server block:  
 ```nginx
-       location @medium {
-            app_protect_enable on;
-            app_protect_policy_file "/etc/nginx/conf.d/medium_policy.json";
-            proxy_pass  http://20.55.234.99:49154?=$ip_flag&$agent_flag&$location;
-            app_protect_security_log_enable on;
-            app_protect_security_log "/opt/app_protect/share/defaults/log_all.json" /var/log/app_protect/requests.log;
+server {
+    listen 0.0.0.0:80 default_server;
+    server_name localhost;
+    app_protect_enable on;
+    app_protect_security_log_enable on;
+    app_protect_security_log /etc/app_protect/conf/webgoat-log-profile.json syslog:server=apps.201.net:5144;
+
+    add_header Location $modified_redirect_location;
+
+    real_ip_header X-Forwarded-For;
+    app_protect_policy_file /etc/app_protect/conf/webgoat-security-policy.json;
+
+
+    location / {
+        proxy_hide_header Location;
+        proxy_pass http://upstream/;
+        proxy_set_header Host $host;
+
+    }
+
+    location /test {
+        proxy_pass http://127.0.0.1/$location?ip=$ip_flag&agent=$agent_flag;
+    }
+    location /api {
+        api write=on;
+    }
+}
 ```            
 
 With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our customer logic!
