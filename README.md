@@ -11,8 +11,8 @@ In this simple example, NGINX Plus App Protect detects requesting client's user 
 
 ```nginx
   map $remote_addr $ip_flag {
-      "71.105.178.190"     yes_friendly_IP;
-      none                 no_friendly_IP;
+      "<insert-allowed-ip>"     yes_friendly_IP;
+      "<insert-other-ip>"       no_friendly_IP;
   }
   map $http_user_agent $agent_flag {
       "~AppleWebKit.*Version/[1-4]..*Safari"                                yes_friendly_agent;
