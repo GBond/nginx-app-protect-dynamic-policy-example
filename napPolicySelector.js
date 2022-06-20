@@ -3,7 +3,12 @@ async function handleRequest(r){
     friendlyIp = r.variables["ip_flag"] == "friendly_IP" ? true : false;
     let agent = r.variables["http_user_agent"];
     let location;
-    r.error("event is firing")
+    r.error("event is firing");
+
+    r.error("U-A is: "+agent);
+
+    r.error("friendIp is " + friendlyIp);
+    r.error("IP Address: " + $remove_addr);
 
     switch(agent){
             case "chrome":
