@@ -48,12 +48,13 @@ With the desired level determined, the client session is sent to one of the Virt
 
 Medium Policy Virtual Server block:  
 ```nginx
-       location @medium {
-            app_protect_enable on;
+ location @medium {
+            app_protect_enable off;
             app_protect_policy_file "/etc/nginx/conf.d/medium_policy.json";
-            proxy_pass  http://20.55.234.99:49154?=$ip_flag&$agent_flag&$location;
+            proxy_pass  http://20.55.234.99:49154/proxy$request_uri?=$ip_flag&$agent_flag&$location;
             app_protect_security_log_enable on;
             app_protect_security_log "/opt/app_protect/share/defaults/log_all.json" /var/log/app_protect/requests.log;
+        }
 ```            
 
 With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our custom defined logic!
