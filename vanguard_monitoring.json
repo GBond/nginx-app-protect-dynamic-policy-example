@@ -52,12 +52,6 @@
       ],
       "whitelist-ips": [
         {
-          "description": "Test Server Subnet",
-          "ipAddress": "172.10.16.0",
-          "blockRequests": "never",
-          "ipMask": "24"
-        },
-        {
           "description": "Outside Testing Server",
           "ipAddress": "8.1.2.1",
           "ipMask": "32",
