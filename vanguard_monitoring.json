@@ -54,13 +54,11 @@
         {
           "description": "Outside Testing Server",
           "ipAddress": "8.1.2.1",
-          "ipMask": "",
           "blockRequests": "never"
         },
         {
           "description": "Harrassing Server",
           "ipAddress": "14.14.14.14",
-          "ipMask": "",
           "blockRequests": "always"
         }
       ]

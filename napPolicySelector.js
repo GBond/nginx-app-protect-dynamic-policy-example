@@ -16,6 +16,8 @@ async function handleRequest(r){
             break;
     }
 
+    r.error("Location: "+location+" where we are going.")
+
     // let reply = await r.subrequest("/"+location+"/"+r.uri)
     // r.return(reply.status, reply.responseBody);
     r.internalRedirect("/"+location+"/"+r.uri);
