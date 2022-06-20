@@ -56,7 +56,7 @@ Medium Policy Virtual Server block:
             app_protect_security_log "/opt/app_protect/share/defaults/log_all.json" /var/log/app_protect/requests.log;
 ```            
 
-With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our customer logic!
+With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our custom defined logic!
 
 ## How to use this example NGINX App Protect configuration 
 1. Install NGINX App Protect WAF (Details here https://docs.nginx.com/nginx-app-protect/). 
