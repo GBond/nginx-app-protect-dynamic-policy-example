@@ -8,7 +8,7 @@ async function handleRequest(r){
     r.error("U-A is: "+agent);
 
     r.error("friendIp is " + friendlyIp);
-    r.error("IP Address: " + $remove_addr);
+    r.error("IP Address: " + r.variables["remote_addr"]);
 
     switch(agent){
             case "chrome":
