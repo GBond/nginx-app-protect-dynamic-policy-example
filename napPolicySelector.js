@@ -10,15 +10,12 @@ async function handleRequest(r) {
     r.error("friendIp is " + friendlyIp);
     r.error("IP Address: " + r.variables["remote_addr"]);
 
-    switch (true) {
-        case /chrome/.test(agent):
-            r.log("executing chrome example")
-            policy_choice = friendlyIp ? "default" : "medium";
-            break;
-        default:
-            r.log("executing non-chrome example")
-            policy_choice = friendlyIp ? "medium" : "strict";
-            break;
+    if (/chrome/.test(agent)) {
+        r.log("executing chrome example")
+        policy_choice = friendlyIp ? "default" : "medium";
+    } else {
+        r.log("executing non-chrome example")
+        policy_choice = friendlyIp ? "medium" : "strict";
     }
 
     r.error("Location: " + policy_choice + " where we are going.")
