@@ -10,7 +10,7 @@ async function handleRequest(r) {
     r.error("friendIp is " + friendlyIp);
     r.error("IP Address: " + r.variables["remote_addr"]);
 
-    if (/chrome/.test(agent)) {
+    if (agent.toLowerCase().indexOf("chrome") > 0) {
         r.log("executing chrome example")
         policy_choice = friendlyIp ? "default" : "medium";
     } else {
