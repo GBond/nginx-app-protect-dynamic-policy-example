@@ -9,13 +9,11 @@ async function handleRequest(r) {
 
     r.error("ip_flag: " + r.variables["ip_flag"]);
     let friendlyIp;
-    friendlyIp = r.variables["ip_flag"] == "xff" ? true : false;
-
+    friendlyIp = r.variables["ip_flag"] == xff ? true : false;
 
     r.error("XFF: " + xff);
     r.error("friendIp is " + friendlyIp);
     r.error("IP Address: " + r.variables["remote_addr"]);
-
 
     if (agent.toLowerCase().indexOf("chrome") > 0) {
         r.log("executing chrome example")
