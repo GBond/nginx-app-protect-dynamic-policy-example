@@ -14,6 +14,7 @@ At the top of the nginx.conf, thw NJS module is loaded:
 ```nginx
     load_module modules/ngx_http_js_module.so;
 ```
+Here the NGINX API is used to test the incoming IP Address, stored here in the X-Forwarded-For header.  You can also use $remote_addr for non-proxied requests.
 
 ```nginx
     keyval_zone zone=one:1m type=string state=/etc/nginx/one.keyval;
@@ -21,42 +22,96 @@ At the top of the nginx.conf, thw NJS module is loaded:
 
 ```
 
-We then use the values to apply our custom conditional logic for selecting the desired policy level. 
+Then in the nginx Server block, we initalize the client_ip:
 
 ```nginx
-        if ($ip_flag = yes_friendly_IP){
-            set $friendy_flag T;
-        }
+        set $client_ip "";
 
-        if ($agent_flag = 'yes_friendly_agent'){
-            set $friendy_flag "${friendy_flag}T";
-        }
-
-         #default policy is strict
-        set $location "strict";
-        
-        if ($friendy_flag  = "TT") {
-               set $location "default";
-        }
-
-        if ($friendy_flag  = "T") {
-               set $location "medium";
-        }
 ```
 
-With the desired level determined, the client session is sent to one of the Virtual Servers that maps one of the policy levels: Default, Medium, & Strict. 
-
-Medium Policy Virtual Server block:  
+Add set up a Location of "root" where the NJS will be called:
 ```nginx
-       location @medium {
-            app_protect_enable on;
-            app_protect_policy_file "/etc/nginx/conf.d/medium_policy.json";
-            proxy_pass  http://20.55.234.99:49154?=$ip_flag&$agent_flag&$location;
-            app_protect_security_log_enable on;
-            app_protect_security_log "/opt/app_protect/share/defaults/log_all.json" /var/log/app_protect/requests.log;
-```            
+        location / {
+            app_protect_enable off;
+            app_protect_security_log_enable off;
+            client_max_body_size 0;
 
-With the proper Virtual Server block selected, the client request now under the desired policy that was dynamically selected via our customer logic!
+            # this executes the njs code to determine if we need to amend the selected security policy
+            js_content napPolicySelector.handleRequest;
+        }
+
+```
+
+Looking in the napPolicySelector.js 
+
+An async function is set up, accepting the request as 'r':
+```javascript
+async function handleRequest(r) {
+    let agent = r.variables["http_user_agent"];
+    let policy_choice;
+
+    r.error("U-A is: " + agent);
+
+    r.variables["client_ip"] = "0.0.0.0";
+
+    // get the XFF value
+    let xff = r.headersIn["X-Forwarded-For"];
+
+    r.error("ip_flag: " + r.variables["ip_flag"]);
+    let allowedIp = r.variables["ip_flag"] == "allow" ? true : false;
+
+    r.error("XFF: " + xff);
+    r.error("Allow this IP? " + allowedIp);
+
+    if (agent.toLowerCase().indexOf("chrome") > -1) {
+        r.error("executing chrome example");
+        policy_choice = allowedIp ? "medium" : "default";
+    }
+    else if (agent.toLowerCase().indexOf("curl") > -1) {
+        r.error("executing curl example");
+        policy_choice = allowedIp ? "medium" : "strict";
+    } else {
+        r.error("executing non-chrome example");
+        policy_choice = allowedIp ? "medium" : "strict";
+    }
+
+    r.error("Policy Choice: " + policy_choice);
+
+    r.internalRedirect("/" + policy_choice + "/" + r.uri);
+}
+
+
+export default {
+    handleRequest
+}
+
+```
+
+The function reads the value from the nginx.conf map directive to determine if the IP address is allowed or not.  Depending on the IP and the User-Agent, a selection for a policy is made.
+
+The selection then determines which Location Block in the nginx.conf will be read.  In those blocks, the appropriate settings are configured.
+
+For example, for the "default" policy:
+```nginx
+        location /default {
+            internal;
+            app_protect_enable on;
+            app_protect_security_log_enable on;
+            app_protect_policy_file "/etc/nginx/vanguard_default.json";
+            proxy_pass http://arcadia_ingress_nodeports$request_uri;
+            if ($request_uri = "/files") {
+                status_zone backend_service;
+            }
+            if ($request_uri = "/api") {
+                status_zone app2_service;
+            }
+            if ($request_uri = "/app3") {
+                status_zone app3_service;
+            }
+            app_protect_security_log "/opt/app_protect/share/defaults/log_all.json" /var/log/app_protect/requests.log;
+        }
+
+```
 
 ## How to use this example NGINX App Protect configuration 
 1. Install NGINX App Protect WAF (Details here https://docs.nginx.com/nginx-app-protect/). 
