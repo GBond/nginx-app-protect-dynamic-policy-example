@@ -1,12 +1,10 @@
 async function handleRequest(r) {
     let agent = r.variables["http_user_agent"];
     let policy_choice;
-    r.error("event is firing");
+
     r.error("U-A is: " + agent);
 
     r.variables["client_ip"] = "0.0.0.0";
-
-    r.error("Client_IP:" + r.variables["client_ip"]);
 
     // get the XFF value
     let xff = r.headersIn["X-Forwarded-For"];
