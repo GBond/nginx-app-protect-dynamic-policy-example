@@ -7,8 +7,10 @@ async function handleRequest(r) {
     // get the XFF value
     let xff = r.headersIn["X-Forwarded-For"];
 
+    r.error("ip_flag: " + r.variables["ip_flag"]);
     let friendlyIp;
-    friendlyIp = r.variables["ip_flag"] == xff ? true : false;
+    friendlyIp = r.variables["ip_flag"] == "xff" ? true : false;
+
 
     r.error("XFF: " + xff);
     r.error("friendIp is " + friendlyIp);
