@@ -18,11 +18,11 @@ async function handleRequest(r) {
     r.error("Allow this IP? " + allowedIp);
     // r.error("IP Address: " + r.variables["remote_addr"]);
 
-    if (agent.toLowerCase().indexOf("chrome") > 0) {
+    if (agent.toLowerCase().indexOf("chrome") > -1) {
         r.error("executing chrome example")
         policy_choice = allowedIp ? "medium" : "default";
     }
-    else if (agent.toLowerCase().indexOf("curl") > 0) {
+    else if (agent.toLowerCase().indexOf("curl") > -1) {
         r.error("executing curl example")
         policy_choice = allowedIp ? "medium" : "strict";
     } else {
