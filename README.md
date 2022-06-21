@@ -4,21 +4,21 @@
 Demonstrate how NGINX Configuration can evaluate the client's user agent info and IP address and apply a NGINX App Protect policy dynamically.
 
 ### Approach 
-Using native NGINX directives, read the client request info and apply the proper NGINX App Protect's declarative policy in a dynamic fashion.
+Using NJS (nginx programmability via JavaScript) the client request can determine how to select the policy
 
 ### Configuration details 
-In this simple example, NGINX Plus App Protect detects requesting client's user agent and IP address (via built-in NGINX Plus request variables *$remote_addr* & *$http_user_agent*). We also leverage the *map* directive as it is an effiecient way to apply case conditions while assigning custom variables.
+This example builds on the previous example using nginx.conf map statements with NJS.
+
+At the top of the nginx.conf, thw NJS module is loaded:
 
 ```nginx
-  map $remote_addr $ip_flag {
-      "71.105.178.190"     yes_friendly_IP;
-      none                 no_friendly_IP;
-  }
-  map $http_user_agent $agent_flag {
-      "~AppleWebKit.*Version/[1-4]..*Safari"                                yes_friendly_agent;
-      "vanguard.com:Other Agent.*$"                                         no_friendly_agent;
-  }
-}
+    load_module modules/ngx_http_js_module.so;
+```
+
+```nginx
+    keyval_zone zone=one:1m type=string state=/etc/nginx/one.keyval;
+    keyval $http_x_forwarded_for $ip_flag zone=one; # Client address is the key,
+
 ```
 
 We then use the values to apply our custom conditional logic for selecting the desired policy level. 

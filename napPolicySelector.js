@@ -16,14 +16,14 @@ async function handleRequest(r) {
     r.error("Allow this IP? " + allowedIp);
 
     if (agent.toLowerCase().indexOf("chrome") > -1) {
-        r.error("executing chrome example")
+        r.error("executing chrome example");
         policy_choice = allowedIp ? "medium" : "default";
     }
     else if (agent.toLowerCase().indexOf("curl") > -1) {
-        r.error("executing curl example")
+        r.error("executing curl example");
         policy_choice = allowedIp ? "medium" : "strict";
     } else {
-        r.error("executing non-chrome example")
+        r.error("executing non-chrome example");
         policy_choice = allowedIp ? "medium" : "strict";
     }
 
