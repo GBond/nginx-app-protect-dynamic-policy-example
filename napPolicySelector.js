@@ -29,7 +29,7 @@ async function handleRequest(r) {
         policy_choice = allowedIp ? "medium" : "strict";
     }
 
-    r.error("Location: " + policy_choice + " where we are going.")
+    r.error("Policy Choice: " + policy_choice);
 
     r.internalRedirect("/" + policy_choice + "/" + r.uri);
 }
