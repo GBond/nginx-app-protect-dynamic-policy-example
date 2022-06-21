@@ -15,12 +15,16 @@ async function handleRequest(r) {
     let allowedIp = r.variables["ip_flag"] == "allow" ? true : false;
 
     r.error("XFF: " + xff);
-    r.error("friendIp is " + allowedIp);
-    r.error("IP Address: " + r.variables["remote_addr"]);
+    r.error("Allow this IP? " + allowedIp);
+    // r.error("IP Address: " + r.variables["remote_addr"]);
 
     if (agent.toLowerCase().indexOf("chrome") > 0) {
         r.log("executing chrome example")
-        policy_choice = allowedIp ? "default" : "medium";
+        policy_choice = allowedIp ? "medium" : "default";
+    }
+    else if (agent.toLowerCase().indexOf("curl") > 0) {
+        r.log("executing curl example")
+        policy_choice = allowedIp ? "medium" : "strict";
     } else {
         r.log("executing non-chrome example")
         policy_choice = allowedIp ? "medium" : "strict";
