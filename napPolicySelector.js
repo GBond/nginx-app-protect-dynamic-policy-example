@@ -4,23 +4,24 @@ async function handleRequest(r) {
     r.error("event is firing");
     r.error("U-A is: " + agent);
 
+    r.error("Client_IP:" + r.variables["client_ip"]);
+
     // get the XFF value
     let xff = r.headersIn["X-Forwarded-For"];
 
     r.error("ip_flag: " + r.variables["ip_flag"]);
-    let friendlyIp;
-    friendlyIp = r.variables["ip_flag"] == "friend" ? true : false;
+    let allowedIp = r.variables["ip_flag"] == "allow" ? true : false;
 
     r.error("XFF: " + xff);
-    r.error("friendIp is " + friendlyIp);
+    r.error("friendIp is " + allowedIp);
     r.error("IP Address: " + r.variables["remote_addr"]);
 
     if (agent.toLowerCase().indexOf("chrome") > 0) {
         r.log("executing chrome example")
-        policy_choice = friendlyIp ? "default" : "medium";
+        policy_choice = allowedIp ? "default" : "medium";
     } else {
         r.log("executing non-chrome example")
-        policy_choice = friendlyIp ? "medium" : "strict";
+        policy_choice = allowedIp ? "medium" : "strict";
     }
 
     r.error("Location: " + policy_choice + " where we are going.")
