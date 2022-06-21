@@ -16,7 +16,6 @@ async function handleRequest(r) {
 
     r.error("XFF: " + xff);
     r.error("Allow this IP? " + allowedIp);
-    // r.error("IP Address: " + r.variables["remote_addr"]);
 
     if (agent.toLowerCase().indexOf("chrome") > -1) {
         r.error("executing chrome example")
@@ -32,8 +31,6 @@ async function handleRequest(r) {
 
     r.error("Location: " + policy_choice + " where we are going.")
 
-    // let reply = await r.subrequest("/"+location+"/"+r.uri)
-    // r.return(reply.status, reply.responseBody);
     r.internalRedirect("/" + policy_choice + "/" + r.uri);
 }
 
