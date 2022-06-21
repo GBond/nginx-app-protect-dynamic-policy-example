@@ -10,6 +10,10 @@ async function handleRequest(r) {
     r.error("friendIp is " + friendlyIp);
     r.error("IP Address: " + r.variables["remote_addr"]);
 
+    // get the XFF value
+    let xff = r.headersIn["X-Forwarded-For"];
+    r.error("XFF: " + xff);
+
     if (agent.toLowerCase().indexOf("chrome") > 0) {
         r.log("executing chrome example")
         policy_choice = friendlyIp ? "default" : "medium";
