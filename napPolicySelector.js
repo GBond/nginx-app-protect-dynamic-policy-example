@@ -4,8 +4,6 @@ async function handleRequest(r) {
 
     r.error("U-A is: " + agent);
 
-    r.variables["client_ip"] = "0.0.0.0";
-
     // get the XFF value
     let xff = r.headersIn["X-Forwarded-For"];
 
