@@ -16,7 +16,7 @@ In this simple example, NGINX Plus App Protect detects requesting client's user 
   }
   map $http_user_agent $agent_flag {
       "~AppleWebKit.*Version/[1-4]..*Safari"                                yes_friendly_agent;
-      "vanguard.com:Other Agent.*$"                                         no_friendly_agent;
+      "example.com:Other Agent.*$"                                         no_friendly_agent;
   }
 }
 ```

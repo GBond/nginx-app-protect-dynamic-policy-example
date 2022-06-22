@@ -1,6 +1,6 @@
 {
     "policy": {
-      "name": "vanguard_basepolicy",
+      "name": "vanguard_mediumpolicy",
       "template": {
         "name": "POLICY_TEMPLATE_NGINX_BASE"
       },
@@ -50,11 +50,16 @@
           "alarm": true
         }
       ],
-      "urls": [
+      "whitelist-ips": [
         {
-          "name": "/files",
-          "wildcardOrder": 0,
-          "attackSignaturesCheck": false
+          "description": "Outside Testing Server",
+          "ipAddress": "8.1.2.1",
+          "blockRequests": "never"
+        },
+        {
+          "description": "Harrassing Server",
+          "ipAddress": "14.14.14.14",
+          "blockRequests": "always"
         }
       ]
     }

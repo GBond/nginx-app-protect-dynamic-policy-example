@@ -97,7 +97,7 @@ For example, for the "default" policy:
             internal;
             app_protect_enable on;
             app_protect_security_log_enable on;
-            app_protect_policy_file "/etc/nginx/vanguard_default.json";
+            app_protect_policy_file "/etc/nginx/customer_default.json";
             proxy_pass http://arcadia_ingress_nodeports$request_uri;
             if ($request_uri = "/files") {
                 status_zone backend_service;
