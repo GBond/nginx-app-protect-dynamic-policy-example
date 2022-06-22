@@ -1,6 +1,6 @@
 {
   "policy": {
-    "name": "vanguard_basepolicy",
+    "name": "vanguard_defaultpolicy",
     "template": {
       "name": "POLICY_TEMPLATE_NGINX_BASE"
     },
