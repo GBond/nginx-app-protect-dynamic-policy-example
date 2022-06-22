@@ -57,7 +57,7 @@ Medium Policy Virtual Server block:
         }
 ```            
 
-With the proper Virtual Server block selected, the client request is now protected by the dynamically selected policy via our custom defined logic.
+With the proper Virtual Server block selected, the client request is now protected by the desired, dynamically selected policy.
 
 ## How to use this example NGINX App Protect configuration 
 1. Install NGINX App Protect WAF (Details here https://docs.nginx.com/nginx-app-protect/). 
